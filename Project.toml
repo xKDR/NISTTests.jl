@@ -1,0 +1,7 @@
+name = "NISTTests"
+uuid = "2d49f019-3af9-4651-9a5c-40949962a43a"
+authors = ["Mousum Dutta"]
+version = "0.1.0"
+
+[compat]
+julia = "1"
