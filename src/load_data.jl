@@ -22,7 +22,6 @@ Takes `i` and loads `i`-th Beta value for the specified NIST Dataset.
 """
 function get_nist_beta(filename,i)
     filename=filename * "_compare.csv"
-    println(filename)
     @assert filename ∈ readdir(data_path())
     df=CSV.read(data_path(filename), DataFrame, missingstring="NA")
     return df[i,1]
@@ -56,7 +55,9 @@ function get_nist_rsd(filename)
     filename=filename*"_compare.csv"
     @assert filename ∈ readdir(data_path())
     df=CSV.read(data_path(filename), DataFrame, missingstring="NA")
-    return df[1,8]
+    out=df[1,8]
+    out=parse(Float64,string(out))
+    return out
 end
 
 """
@@ -71,5 +72,7 @@ function get_nist_rsquare(filename)
     filename=filename*"_compare.csv"
     @assert filename ∈ readdir(data_path())
     df=CSV.read(data_path(filename), DataFrame, missingstring="NA")
-    return df[1,10]
+    out=df[1,10]
+    out=parse(Float64,string(out))
+    return out
 end

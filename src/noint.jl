@@ -5,7 +5,6 @@ julia_summary_noint
 
 Uses `julia` to calculate datas for NoInt1 and NoInt2 Datasets.
 """
-
 function julia_summary_noint(filename)
     nist_d=get_nist_data(filename)
     jlm=lm(@formula(y~ 0 + x), nist_d)
@@ -23,7 +22,6 @@ R_summary_noint
 
 Uses `R` to calculate datas for NoInt1 and NoInt2 Datasets.
 """
-
 function R_summary_noint(filename)
 
     nist_ddata=get_nist_data(filename)
@@ -52,7 +50,6 @@ full_noint
 
 Uses `julia` and `R` to calculate datas for NoInt1 and NoInt2 Datasets and displays them with actual NIST-Datasets.
 """
-
 function full_noint(filename)
     nist_l=(get_nist_beta(filename,1),get_nist_standarderror(filename,1),get_nist_rsd(filename),get_nist_rsquare(filename))
     j_l=julia_summary_noint(filename)
@@ -71,7 +68,6 @@ full_compare_noint
 
 Uses `julia` and `R` to calculate datas for NoInt1 and NoInt2 Datasets and compares them with actual NIST-Datasets and display.
 """
-
 function full_compare_noint(filename)
     nist_l=(get_nist_beta(filename,1),get_nist_standarderror(filename,1),get_nist_rsd(filename),get_nist_rsquare(filename))
     j_l=julia_summary_noint(filename)

@@ -5,7 +5,6 @@ julia_summary_filip
 
 Uses `julia` to calculate datas for Filip.
 """
-
 function julia_summary_filip(filename)
     nist_d=get_nist_data(filename)
     fm=@formula(y~ x1+x1^2+x1^3+x1^4+x1^5+x1^6+x1^7+x1^8+x1^9+x1^10)
