@@ -30,7 +30,6 @@ end
 ```julia
 compare_nist_beta
 ```
-
 Uses `how_same` to compare `i`-th beta from NIST-Data with input.
 """
 function compare_nist_beta(dataset_name,i,beta)
@@ -43,7 +42,6 @@ end
 ```julia
 compare_nist_standarderror
 ```
-
 Uses `how_same` to compare `i`-th Standarderror from NIST-Data with input.
 """
 function compare_nist_standarderror(dataset_name,i,sd)
@@ -56,7 +54,6 @@ end
 ```julia
 compare_nist_rsd
 ```
-
 Uses `how_same` to compare rsd from NIST-Data with input.
 """
 function compare_nist_rsd(dataset_name,rsd)
@@ -69,7 +66,6 @@ end
 ```julia
 compare_nist_rsquare
 ```
-
 Uses `how_same` to compare rsquare from NIST-Data with input.
 """
 function compare_nist_rsquare(dataset_name,rsq)

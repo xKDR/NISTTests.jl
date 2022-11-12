@@ -8,7 +8,4 @@ Documentation for [NISTTests](https://github.com/NISTTests.jl).
 
 ```@index
 ```
-
-```@autodocs
-Modules = [NISTTests]
-```
+Hello World! - This is NISTTests by XKDR

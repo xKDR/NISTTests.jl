@@ -8,7 +8,7 @@ get_nist_data
 Function to load y,x1,x2,.. Data from pecified NIST Dataset as a Dataframe Object.
 """
 function get_nist_data(filename)
-    filename = filename * ".csv"
+    filename = String(filename) * ".csv"
     @assert filename ∈ readdir(data_path())
     df=CSV.read(data_path(filename), DataFrame, missingstring="NA")
     return df
