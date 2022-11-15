@@ -20,12 +20,10 @@ norris_certified_values
 NIST certified values for Norris dataset
 """
 function norris_certified_values()
-    NISTLRCertifiedValues(
+    NISTLREstimates(
         [-0.262323073774029, 1.00211681802045],
         [0.232818234301152, 0.429796848199937E-03],
-        0.884796396144373,
-        0.999993745883712,
-        :Norris)
+        0.884796396144373, 0.999993745883712)
 end
 
 """
@@ -48,6 +46,5 @@ function norris_compare(beta, stderr, rsd, rsq)
     compare(ct, beta, stderr, rsd, rsq)
 end
 
-function norris_model()
-    NISTLRCModel(norris_data(), norris_model_formula(), :Norris)
-end
+norris_model() = NISTLRModel(norris_data(), norris_model_formula(),
+                             norris_certified_values(), false, :Norris)

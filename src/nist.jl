@@ -1,102 +1,111 @@
 
-
-struct NISTLRCertifiedValues
+mutable struct NISTLREstimates
     coef::FPVector
     stderror::FPVector
-    devience::Real
+    dispersion::Real
     r2::Real
-    datasetname::Symbol
-    NISTLRCertifiedValues(beta::FPVector, std::FPVector, devience::Real,
-        rsq::Real, name::Symbol) = new(float(beta), float(std), float(devience), float(rsq), name)
+    NISTLREstimates(beta::FPVector, std::FPVector, dev::Real, rsq::Real) = 
+        new(float(beta), float(std), float(dev), float(rsq))
 end
+
+struct NISTLRModel <: NISTModel
+    data::DataFrame
+    formula::FormulaTerm
+    certified::NISTLREstimates
+    hasintercept::Bool
+    datasetname::Symbol
+    NISTLRModel(dt::DataFrame, fm::FormulaTerm, cert::NISTLREstimates, hasintcpt::Bool, name::Symbol) = new(dt, fm, cert, hasintcpt, name)
+end
+
+function NISTLRModel(data::DataFrame, fm::FormulaTerm, hasintercept::Bool,
+                     beta::FPVector, std::FPVector, dev::Real, rsq::Real,
+                     name::Symbol)
+    values = NISTLREstimates(beta, std, dev, rsq)
+    return new(data, fm, values, hasintercept, name)
+end
+        
 
 nist_data(datsetname::Symbol) = get_nist_data(datsetname)
 
 
 """
 ```julia
-coef
+certified_coef
 ```
 Certified estimates of slope parameters
 """
 
-coef(ct::NISTLRCertifiedValues) = ct.coef   
+certified_coef(ct::NISTModel) = ct.certified.coef   
 
 """
 ```julia
-stderror
+certified_stderror
 ```
 Certified standard error of slope parameters
 """
-stderror(ct::NISTLRCertifiedValues) = ct.stderror   
+certified_stderror(ct::NISTModel) = ct.certified.stderror   
 
 """
 ```julia
-deviance
+certified_dispersion
 ```
 Certified residual standard deviation of the model
 """
-deviance(ct::NISTLRCertifiedValues) = ct.devience 
+certified_dispersion(ct::NISTModel) = ct.certified.dispersion 
 
 """
 ```julia
-r2
+certified_r2
 ```
 Certified r-sqaured of the model
 """
-r2(ct::NISTLRCertifiedValues) = ct.r2
+certified_r2(ct::NISTModel) = ct.certified.r2
 
 """
 ```julia
-r²
+certified_r²
 ```
 Certified r-sqaured of the model
 """
-const r² = r2
+const certified_r² = certified_r2
 
-compare(ct::NISTLRCertifiedValues, beta::FPVector, stderr::FPVector,
-    rsd::Real, rsq::Real) =
-    NISTLinearRegTable(ct.coef, beta, ct.stderror, stderr, ct.devience, rsd, ct.r2, rsq)
+"""
+```julia
+nist_data
+```
+"""
+nist_data(mdl::NISTModel) = mdl.data
 
-function compare(datasetname::Symbol, beta::FPVector,
-        stderr::FPVector, rsd::Real, rsq::Real)
-    ct = nist_certified_values(datasetname)
-    compare(ct, beta, stderr, rsd, rsq)
-end
+"""
+```julia
+formula
+```
+"""
+formula(mdl::NISTModel) = mdl.formula
 
-struct NISTLRCModel
-    data::DataFrame
-    formula::FormulaTerm
-    datasetname::Symbol
-    NISTLRCModel(data::DataFrame, fm::FormulaTerm, name::Symbol) = new(data, fm, name)
-end
-
-data(mdl::NISTLRCModel) = mdl.data
-
-formula(mdl::NISTLRCModel) = mdl.formula
-
-function modelcols(mdl::NISTLRCModel)
+"""
+```julia
+modelcols
+```
+"""
+function modelcols(mdl::NISTModel)
     StatsModels.modelcols(apply_schema(mdl.formula, schema(mdl.formula, mdl.data),
         RegressionModel), mdl.data)
 end
 
-datasetname(mdl::NISTLRCModel) = mdl.datasetname
+"""
+```julia
+modelcols
+```
+"""
+datasetname(mdl::NISTModel) = mdl.datasetname
 
 """
 ```julia
-norris_certified_values
+nist_model
 ```
-NIST certified values for Norris dataset
+NIST Model for a given dataset
 """
-function nist_certified_values(datasetname::Symbol)
-    check_datasetname(datasetname)
-    if datasetname == :Norris
-        return norris_certified_values()
-    else
-        throw("Not Implemented Yet")
-    end
-end
-
 function nist_model(datasetname::Symbol)
     check_datasetname(datasetname)
     if datasetname == :Norris
