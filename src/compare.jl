@@ -68,6 +68,22 @@ certified_r2(ct::NISTResults) = certified_r2(ct.model)
 
 """
 ```julia
+certified_values
+```
+Certified estimates
+"""
+certified_values(ct::NISTResults) = certified_values(ct.model)
+
+"""
+```julia
+estimated_values
+```
+Estimates for comparing
+"""
+estimated_values(ct::NISTResults) = ct.estimates
+
+"""
+```julia
 nist_data
 ```
 """
@@ -96,6 +112,14 @@ compare(ct::NISTLRModel, beta::FPVector, stderr::FPVector, rsd::Real, rsq::Real)
         NISTLResults(ct, beta, stderr, rsd, rsq)
 
 
+function julia_compare(regmodel, datasetname, args...; kwargs...)
+    model = nist_model(datasetname)
+    y, X = modelcols(model)
+    mdl = StatsModels.fit(regmodel, X, y, args...; kwargs...)
+    compare(model, coef(mdl), stderror(mdl), dispersion(mdl), r2(mdl))
+end
+
+
 function Base.show(io::IO, ct::NISTLResults)
     nr = length(ct.model.certified.coef)
     nr == length(ct.estimates.coef) && nr == length(ct.estimates.stderror) || throw(DimensionMismatch("Length of estimates are different from NIST"))
@@ -103,7 +127,7 @@ function Base.show(io::IO, ct::NISTLResults)
     iz = ct.model.hasintercept ? 0 : 1
 
     #println(io, "NIST Dataset: " * String(ct.datasetname))
-    println(io, "Comparison with " * String(ct.model.datasetname) * "NIST Dataset")
+    println(io, "Comparison with " * String(ct.model.datasetname) * " NIST Dataset")
     println(io)
     println(io, "Coefficient:")
     println(io, " "^8, rpad("NIST Certified", 20), rpad("Calculated", 20), "Precision")
@@ -153,9 +177,34 @@ function Base.show(io::IO, ct::NISTLResults)
 end
 
 
-function julia_compare(regmodel, datasetname, args...; kwargs...)
-    model = nist_model(datasetname)
-    y, X = modelcols(model)
-    mdl = StatsModels.fit(regmodel, X, y, args...; kwargs...)
-    compare(model, coef(mdl), stderror(mdl), dispersion(mdl), r2(mdl))
+function compare(datasetname::Symbol, fitfunction::Function, 
+    coeffunction::Function, stderrorfunction::Function, 
+    rsdfucntion::Function, rsqfunction::Function)
+
+    mdl = nist_model(datasetname)
+    nistdata = nist_data(datasetname)
+    model = fitfunction(nistdata)
+
+    beta = coeffunction(model)
+    stderr = stderrorfunction(model)
+    rsd = rsdfucntion(model)
+    rsq = rsqfunction(model)
+
+    return compare(mdl, beta, stderr, rsd, rsq)
+end
+
+function compare(datasetname::Symbol, fitfunction::Function, args...; 
+    coeffunction::Function, stderrorfunction::Function, 
+    rsdfucntion::Function, rsqfunction::Function)
+
+    mdl = nist_model(datasetname)
+    nistdata = nist_data(datasetname)
+    model = fitfunction(nistdata)
+
+    beta = coeffunction(model)
+    stderr = stderrorfunction(model)
+    rsd = rsdfucntion(model)
+    rsq = rsqfunction(model)
+
+    return compare(mdl, beta, stderr, rsd, rsq)
 end

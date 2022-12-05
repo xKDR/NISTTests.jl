@@ -42,9 +42,9 @@ norris_compare
 Compare given estimates with certified estimates for Norris dataset
 """
 function norris_compare(beta, stderr, rsd, rsq)
-    ct = norris_certified_values()
-    compare(ct, beta, stderr, rsd, rsq)
+    ct = norris_model()
+    compare(ct, float(beta), float(stderr), float(rsd), float(rsq))
 end
 
 norris_model() = NISTLRModel(norris_data(), norris_model_formula(),
-                             norris_certified_values(), false, :Norris)
+                             norris_certified_values(), true, :Norris)
