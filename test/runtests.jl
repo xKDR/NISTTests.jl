@@ -1,6 +1,8 @@
 using NISTTests
 using Test
 using Distributions
+using StatsModels
+using GLM
 
 @testset "NISTTests.jl" begin
     include("load_data.jl")
