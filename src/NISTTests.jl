@@ -8,6 +8,8 @@ export norris_data, norris_certified_values, norris_model, norris_compare, norri
 export pontius_data, pontius_certified_values, pontius_model, pontius_compare, pontius_model_formula
 export filip_data, filip_certified_values, filip_model, filip_compare, filip_model_formula
 export longley_data, longley_certified_values, longley_model, longley_compare, longley_model_formula
+export noint1_data, noint1_certified_values, noint1_model, noint1_compare, noint1_model_formula
+export noint2_data, noint2_certified_values, noint2_model, noint2_compare, noint2_model_formula
 export julia_compare
 
 const FP = AbstractFloat
