@@ -114,7 +114,11 @@ function julia_compare(regmodel, datasetname, args...; kwargs...)
     model = nist_model(datasetname)
     y, X = modelcols(model)
     mdl = StatsModels.fit(regmodel, X, y, args...; kwargs...)
-    compare(model, coef(mdl), stderror(mdl), dispersion(mdl), r2(mdl))
+    if (@show regmodel == GeneralizedLinearModel)
+        compare(model, coef(mdl), stderror(mdl), dispersion(mdl), 1-deviance(mdl)/nulldeviance(mdl))
+    else 
+        compare(model, coef(mdl), stderror(mdl), dispersion(mdl), r2(mdl))
+    end
 end
 
 
