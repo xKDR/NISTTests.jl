@@ -113,8 +113,10 @@ compare(ct::NISTLRModel, beta::FPVector, stderr::FPVector, rsd::Real, rsq::Real)
 function julia_compare(regmodel, datasetname, args...; kwargs...)
     model = nist_model(datasetname)
     y, X = modelcols(model)
+    # mdl = StatsModels.fit(regmodel,model.formula,model.data, args...; kwargs...)
+    # mdl = StatsModels.fit(LinearModel,model.formula,model.data)
     mdl = StatsModels.fit(regmodel, X, y, args...; kwargs...)
-    if (@show regmodel == GeneralizedLinearModel)
+    if regmodel == GeneralizedLinearModel
         compare(model, coef(mdl), stderror(mdl), dispersion(mdl), 1-deviance(mdl)/nulldeviance(mdl))
     else 
         compare(model, coef(mdl), stderror(mdl), dispersion(mdl), r2(mdl))
@@ -132,14 +134,14 @@ function Base.show(io::IO, ct::NISTLResults)
     println(io, "Comparison with " * String(ct.model.datasetname) * " NIST Dataset")
     println(io)
     println(io, "Coefficient:")
-    println(io, " "^8, rpad("NIST Certified", 20), rpad("Calculated", 20), "Precision")
+    println(io, " "^8, rpad("NIST Certified", 30), rpad("Calculated", 30), "Precision")
     cert_coef = ct.model.certified.coef
     calc_coef = ct.estimates.coef
     coef_diff = ct.precision["coef"]
     for ix = 1:nr
         line = rpad("β$iz", 8) * 
-            rpad(@sprintf("%.16f", cert_coef[ix]), 20) *
-            rpad(@sprintf("%.16f", calc_coef[ix]), 20) * 
+            rpad(@sprintf("%.16f", cert_coef[ix]), 30) *
+            rpad(@sprintf("%.16f", calc_coef[ix]), 30) * 
             rpad(@sprintf("%.0f",  coef_diff[ix]), 8)
         println(io, line)
         iz = iz + 1
@@ -149,31 +151,31 @@ function Base.show(io::IO, ct::NISTLResults)
 
     println(io)
     println(io, "Standard Deviation of Estimate:")
-    println(io, " "^8, rpad("NIST Certified", 20), rpad("Calculated", 20), "Precision")
+    println(io, " "^8, rpad("NIST Certified", 30), rpad("Calculated", 30), "Precision")
     cert_stderror = ct.model.certified.stderror
     calc_stderror = ct.estimates.stderror
     stderror_diff = ct.precision["stderror"]
     for ix = 1:nr
         line = rpad("β$iz", 8) * 
-            rpad(@sprintf("%.16f", cert_stderror[ix]), 20) *
-            rpad(@sprintf("%.16f", calc_stderror[ix]), 20) * 
+            rpad(@sprintf("%.16f", cert_stderror[ix]), 30) *
+            rpad(@sprintf("%.16f", calc_stderror[ix]), 30) * 
             rpad(@sprintf("%.0f",  stderror_diff[ix]), 8)
         println(io, line)
         iz = iz + 1
     end
     println(io)
     println(io, "Residual Standard Deviation:")
-    println(io, rpad("NIST Certified", 20), rpad("Calculated", 20), "Precision")
-    line = rpad(@sprintf("%.16f", ct.model.certified.dispersion), 20) *
-        rpad(@sprintf("%.16f", ct.estimates.dispersion), 20) * 
+    println(io, rpad("NIST Certified", 30), rpad("Calculated", 30), "Precision")
+    line = rpad(@sprintf("%.16f", ct.model.certified.dispersion), 30) *
+        rpad(@sprintf("%.16f", ct.estimates.dispersion), 30) * 
         rpad(@sprintf("%.0f", ct.precision["dispersion"]), 8)
     println(io, line)
     
     println(io)
     println(io, "R-Squared:")
-    println(io, rpad("NIST Certified", 20), rpad("Calculated", 20), "Precision")
-    line = rpad(@sprintf("%.16f", ct.model.certified.r2), 20) *
-        rpad(@sprintf("%.16f", ct.estimates.r2), 20) * 
+    println(io, rpad("NIST Certified", 30), rpad("Calculated", 30), "Precision")
+    line = rpad(@sprintf("%.16f", ct.model.certified.r2), 30) *
+        rpad(@sprintf("%.16f", ct.estimates.r2), 30) * 
         rpad(@sprintf("%.0f", ct.precision["r2"]), 8)
     println(io, line)
 end
@@ -183,9 +185,9 @@ function compare(datasetname::Symbol, fitfunction::Function,
     coeffunction::Function, stderrorfunction::Function, 
     rsdfucntion::Function, rsqfunction::Function)
 
-    mdl = nist_model(datasetname)
     nistdata = nist_data(datasetname)
     model = fitfunction(nistdata)
+    mdl = nist_model(datasetname)
 
     beta = coeffunction(model)
     stderr = stderrorfunction(model)

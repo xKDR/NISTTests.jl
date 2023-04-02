@@ -117,13 +117,8 @@ NIST Model for a given dataset
 """
 function nist_model(datasetname::Symbol)
     check_datasetname(datasetname)
-    if datasetname == :Norris
-        return norris_model()
-    elseif datasetname == :Pontius
-        return pontius_model()
-    else
-        throw("Not Implemented Yet")
-    end
+    str_datasetname = lowercase(String(datasetname)) * "_model"
+    return getfield(NISTTests,Symbol(str_datasetname))()
 end
 
 function Base.show(io::IO, ct::NISTLREstimates)

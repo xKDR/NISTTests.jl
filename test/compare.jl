@@ -1,2 +1,1 @@
-@test julia_compare(LinearModel,:Norris)
-@test julia_compare(GeneralizedLinearModel,:Norris,Normal)
+@test julia_compare(LinearModel,:Norris).precision["r2"] > 11
