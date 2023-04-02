@@ -1,4 +1,3 @@
-
 """
 ```julia
 wampler1_data
