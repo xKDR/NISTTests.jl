@@ -6,6 +6,8 @@ export nist_data, coef, stderror, dispersion, r2, r², compare, modelcols, formu
        nist_model, certified_values, estimated_values
 export norris_data, norris_certified_values, norris_model, norris_compare, norris_model_formula
 export pontius_data, pontius_certified_values, pontius_model, pontius_compare, pontius_model_formula
+export filip_data, filip_certified_values, filip_model, filip_compare, filip_model_formula
+export longley_data, longley_certified_values, longley_model, longley_compare, longley_model_formula
 export julia_compare
 
 const FP = AbstractFloat

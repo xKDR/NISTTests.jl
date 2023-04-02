@@ -133,12 +133,12 @@ function Base.show(io::IO, ct::NISTLREstimates)
     iz = ct.hasintercept ? 0 : 1
 
     println(io, "Coefficient:")
-    println(io, " "^8, rpad("Estimate", 20), rpad("Std. Error", 20))
+    println(io, " "^8, rpad("Estimate", 30), rpad("Std. Error", 30))
     coef = ct.coef
     stderror = ct.stderror
     for ix = 1:nr
-        println(io, rpad("β$iz", 8), rpad(@sprintf("%.16f", coef[ix]), 20), 
-        rpad(@sprintf("%.16f", stderror[ix]), 20))
+        println(io, rpad("β$iz", 8), rpad(@sprintf("%.16f", coef[ix]), 30), 
+        rpad(@sprintf("%.16f", stderror[ix]), 30))
         iz = iz + 1
     end
     println(io)
