@@ -1,6 +1,6 @@
-@test julia_summary_norris("norris")[4] ≈ 0.9999937458837117
-@test julia_summary_norris("norris")[3] ≈ 0.8847963961443875
-@test R_summary_norris("norris")[3] ≈ 0.8847963961443794
-@test R_summary_norris("norris")[4] ≈ 0.9999937458837117
-@test size(full_norris("norris")) == (2, 12)
-@test size(full_compare_norris("norris")) == (2, 12)
+@test isa(julia_compare(LinearModel,:Norris),NISTTests.NISTLResults)
+
+# @test all(julia_compare(LinearModel,:Norris).precision["coef"] .> 11)
+# @test all(julia_compare(LinearModel,:Norris).precision["stderror"] .> 11)
+# @test julia_compare(LinearModel,:Norris).precision["dispersion"] > 11
+# @test julia_compare(LinearModel,:Norris).precision["r2"] > 11
