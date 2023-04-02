@@ -1,13 +1,15 @@
 name = "NISTTests"
 uuid = "2d49f019-3af9-4651-9a5c-40949962a43a"
-authors = ["Mousum Dutta"]
-version = "0.1.0"
+authors = ["Mousum Dutta", "Tae Yoon Lee"]
+version = "0.1.1"
 
 [deps]
 CSV = "336ed68f-0bac-5ca0-87d4-7b16caf5d00b"
 DataFrames = "a93c6f00-e57d-5684-b7b6-d8193f3e46c0"
 GLM = "38e38edf-8417-5370-95a0-9cbb8c7f171a"
+Printf = "de0858da-6303-5e67-8744-51eddeeeb8d7"
 RCall = "6f49c342-dc21-5d91-9882-a32aef131414"
+StatsModels = "3eaba693-59b7-5ba5-a881-562e759f1c8d"
 
 [compat]
 julia = "1"
