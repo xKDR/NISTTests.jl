@@ -19,7 +19,7 @@ NIST certified values for wampler3 dataset
 """
 function wampler3_certified_values()
     NISTLREstimates(
-        oens(6),
+        ones(6),
         [2152.3262467817,2363.55173469681,779.343524331583,101.47550755035,5.64566512170752,0.112324854679312],
         2360.14502379268, 0.999995559025820)
 end

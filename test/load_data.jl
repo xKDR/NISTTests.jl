@@ -9,3 +9,4 @@
 @test size(NISTTests.get_nist_data(:Wampler3)) == (21,2)
 @test size(NISTTests.get_nist_data(:Wampler4)) == (21,2)
 @test size(NISTTests.get_nist_data(:Wampler5)) == (21,2)
+@test_throws ArgumentError size(NISTTests.get_nist_data(:Wampler6))
