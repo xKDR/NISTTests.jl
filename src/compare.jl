@@ -1,5 +1,3 @@
-
-
 """
 ```julia
 struct NISTLResults
